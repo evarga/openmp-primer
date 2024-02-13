@@ -1,10 +1,10 @@
 # Compiler to use
 CC = g++
 
-# Standard compiler flags with automatic code optimization turned on
+# Standard compiler flags with code optimization turned on
 CFLAGS = -Wall -std=c++14 -O3
 
-# OpenMP library activation om MacOS (clang compiler)
+# OpenMP library activation on macOS (clang compiler)
 OPENMP_LIB = -Xpreprocessor -fopenmp -lomp
 
 # Directories
