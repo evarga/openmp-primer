@@ -12,6 +12,7 @@
 This is a teaching material aimed to demonstrate the powerfulness of the declarative programming paradigm with OpenMP[^1]. The following topics are covered in this unit:
 
 - How [OpenMP](https://www.openmp.org) may boost performance of a program with minimal extra effort in fully portable manner.
+- In what sense [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) differs from [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law).
 - The basics of a [greedy programming paradigm](https://www.geeksforgeeks.org/greedy-algorithms/) in solving tough computational problems.
 - The variant of the [flood-fill algorithm](https://en.wikipedia.org/wiki/Flood_fill) that optimizes the number of cells that will be explicitly flooded based on a given criteria.
 - The [depth-first search graph algorithm](https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/) to estimate the problem's lower bound.
