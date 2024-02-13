@@ -1,8 +1,11 @@
 # Compiler to use
 CC = g++
 
-# Compiler flags
-CFLAGS = -Wall -std=c++14
+# Standard compiler flags with automatic code optimization turned on
+CFLAGS = -Wall -std=c++14 -O3
+
+# OpenMP library activation om MacOS (clang compiler)
+OPENMP_LIB = -Xpreprocessor -fopenmp -lomp
 
 # Directories
 SRC_DIR = src
@@ -14,11 +17,20 @@ OUTFILE = $(BUILD_DIR)/solver
 # Source files
 SRC = $(SRC_DIR)/solver.cpp
 
-all: $(OUTFILE)
-
-$(OUTFILE): $(SRC)
+all:
 	mkdir -p $(BUILD_DIR)
+
+build-sequential: all
 	$(CC) $(CFLAGS) -o $(OUTFILE) $(SRC)
+
+build-parallel: all
+	$(CC) $(CFLAGS) $(OPENMP_LIB) -o $(OUTFILE) $(SRC)
+
+run:
+	./$(OUTFILE)	
+
+run-fast:
+	./$(OUTFILE) --fast
 
 clean:
 	rm -rf $(BUILD_DIR)

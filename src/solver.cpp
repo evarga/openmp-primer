@@ -206,15 +206,13 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
 
 // Performs chunking as necessary and aggregates partial results.
 vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, const EngineMode mode) {
-    if (n <= 1000 and m <= 1000) {
-        GridConfiguration gridCopy(grid);
-        return solveChunk(n, m, gridCopy, mode);
-    }
-
-    // We are handling blocks with maximum size of chunkSize x chunkSize.
-    const int chunkSize = 300;
+    // We are handling blocks with dimensions of chunkSize x chunkSize.
+    const int chunkSize = (n <= 1000 and m <= 1000) ? 1000 : 300;
     vector<Cell> result;
-    for (int i = 1; i <= n; i += chunkSize)
+
+    #pragma omp parallel if(chunkSize < 1000) num_threads(8)
+    #pragma omp for schedule(dynamic) nowait
+    for (int i = 1; i <= n; i += chunkSize) {
         for (int j = 1; j <= m; j += chunkSize) {
             const int bottom = min(i + chunkSize - 1, n);
             const int right = min(j + chunkSize - 1, m);
@@ -229,8 +227,10 @@ vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, cons
                 cell.first += i - 1;
                 cell.second += j - 1;
             }
+            #pragma omp critical(update_result)
             result.insert(result.end(), partialResult.cbegin(), partialResult.cend());
         }
+    }
     return result;
 }
 
