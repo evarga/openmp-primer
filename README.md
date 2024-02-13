@@ -11,7 +11,7 @@
 # Introduction
 This is a teaching material aimed to demonstrate the powerfulness of the declarative programming paradigm with OpenMP[^1]. The following topics are covered in this unit:
 
-- How [OpenMP](https://www.openmp.org) may boost performance of a program with minimal extra effort in fully portable manner. 
+- How [OpenMP](https://www.openmp.org) may boost performance of a program with minimal extra effort in fully portable manner.
 - The basics of a [greedy programming paradigm](https://www.geeksforgeeks.org/greedy-algorithms/) in solving tough computational problems.
 - The variant of the [flood-fill algorithm](https://en.wikipedia.org/wiki/Flood_fill) that optimizes the number of cells that will be explicitly flooded based on a given criteria.
 - The [depth-first search graph algorithm](https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/) to estimate the problem's lower bound.
@@ -56,7 +56,7 @@ mkdir -p build
 g++ -Wall -std=c++14 -O3 -o build/solver src/solver.cpp
 ```
 
-> Notice that you should always turn on compiler code optimizations, since a modern compiler can leverage low-level hardware supported parallelizations on-the-fly. 
+> Notice that you should always turn on compiler code optimizations, since a modern compiler can leverage low-level hardware supported parallelization on-the-fly.
 
 ## Running the Application
 There are two `run` targets inside the `Makefile` as follows:
@@ -101,11 +101,20 @@ make run < Inputs/08.in > Solutions/08.out  894.16s user 0.82s system 99% cpu 14
 To trigger parallel execution make sure to run `make build-parallel`. Here is the dump from the session solving the most complex test case:
 
 ```
+> time make run < Inputs/08.in > Solutions/08.out
+^Cmake: *** [run] Interrupt: 2
+
+make run < Inputs/08.in > Solutions/08.out  1775.78s user 2.48s system 584% cpu 5:04.15 total
 ```
 
-As you can see, it has completed the task, by generating a solution earning maximum points, in only XX minutes instead of 15 minutes. Such speedup was achieved by only adding couple of `#pragma` statements to the code. This serves as the perfect testimony for the power of the declarative parallel programming approach. Furthermore, the same source code can be run in unchanged fashion sequentially by just omitting the compiler instructions associated with OpenMP.
+As you can see, it has completed the task, by generating a solution earning maximum points, in about 5 instead of 15 minutes. Such 3x speedup was achieved by only adding couple of `#pragma` statements to the code. This serves as the perfect testimony for the power of the declarative parallel programming approach. Furthermore, the same source code can be run in unchanged fashion sequentially by just omitting the compiler instructions associated with OpenMP.
 
-> Albeit being a simple thing to add OpenMP directives to your sequential code, you still need to design a parallelizable program. Here, the *chunking technique* was applied to produce data subdomains amenable for loop parallelization (sometimes referred as SPMD parallel programming style). The beauty of OpenMP is that you can incrementally adorn your sequential program with additional directives and make changes to it, as dictated by performance figures. At one point, there is no need to further improve speed.
+> Albeit being a simple thing to add OpenMP directives to your sequential code, you still need to design a proper parallel program. Here, the *chunking technique* was applied to produce data subdomains amenable for loop parallelization (sometimes referred as SPMD parallel programming style). The beauty of OpenMP is that you can incrementally adorn your sequential program with additional directives and make changes to it, as dictated by performance figures. At one point, there is no need to further improve speed.
+
+This case study illuminates the essence of two crucial laws in distributed computing:
+
+- [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) which says how much speedup is possible for the same amount of work. In our case, the 8th test case was finished 3x faster.
+- [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law) which tells how much more work can be done in the same amount of time. We have managed to 9x scale our data set and accomplish the task in the same amount of time (about 5 minutes). The 9x factor is due to increasing the grid from 1000x1000 to 3000x3000. Consequently, this is the reason why this law is more relevant than the previous one.
 
 # Architecture
 The source code is extensively documented, so it serves as a primary guide in understanding the solution. The basic strategy is quite straightforward:
@@ -129,7 +138,7 @@ The red cells are those that will be evaluated, and we will pick one to flood. T
 # Conclusion
 This project demonstrates the importance and usefulness of knowing ways to easily employ parallel programming concepts. OpenMP is an ultimate choice for gaining high performance without a need to tackle low-level constructs (like, working with various threading libraries). This project also highlights an area where OpenMP and utilization of parallel programming may shine, namely, the *output only* competitive programming tasks. Finding a solution in much less time means more chances to experiment with the program and more opportunities to collect points.
 
-[^1]: The best introductory book on OpenMP is [Using OpenMP](https://mitpress.mit.edu/9780262533027/) despite talking about an old 2.5 version. 
+[^1]: The best introductory book on OpenMP is [Using OpenMP](https://mitpress.mit.edu/9780262533027/) despite talking about an old 2.5 version.
 [^2]: You can create a free account if you would like to use the platform and submit your solutions. There is also a portal called [Petlja](https://petlja.org/en) with some content available in English, too.
 [^3]: The `Makefile` of this project is set up to work on macOS, so you may need to tweak the `CC` and `OPENMP_LIB` definitions, if you want to use OpenMP.
 [^4]: The background grid was taken from [here](https://pixabay.com/vectors/mesh-pattern-monochrome-geometric-2697073/).
