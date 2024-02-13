@@ -114,7 +114,7 @@ As you can see, it has completed the task, by generating a solution earning maxi
 This case study illuminates the essence of two crucial laws in distributed computing:
 
 - [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) which says how much speedup is possible for the same amount of work. In our case, the 8th test case was finished 3x faster.
-- [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law) which tells how much more work can be done in the same amount of time. Recall that we have spent around 5 minutes for both the 7th and 8th test cases. We have managed to scale 9x our data set and accomplish the task in the same amount of time (about 5 minutes). The 9x factor is due to increasing the grid from 1000x1000 to 3000x3000. Consequently, this is the reason why this law is more relevant than the previous one.
+- [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law) which tells how much more work can be done in the same amount of time. Recall that we have spent around 5 minutes for both the 7th and 8th test cases. We have managed to scale 9x our data set and accomplish the task in the same amount of time. The 9x factor is due to increasing the grid from 1000x1000 to 3000x3000. Consequently, this is the reason why this law is more relevant than the previous one.
 
 # Architecture
 The source code is extensively documented, so it serves as a primary guide in understanding the solution. The basic strategy is quite straightforward:
