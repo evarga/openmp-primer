@@ -211,8 +211,8 @@ vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, cons
     vector<Cell> result;
 
     #pragma omp parallel if(chunkSize < 1000) num_threads(8)
-    #pragma omp for schedule(dynamic) nowait
-    for (int i = 1; i <= n; i += chunkSize) {
+    for (int i = 1; i <= n; i += chunkSize)
+        #pragma omp for schedule(dynamic, 2) nowait
         for (int j = 1; j <= m; j += chunkSize) {
             const int bottom = min(i + chunkSize - 1, n);
             const int right = min(j + chunkSize - 1, m);
@@ -230,7 +230,6 @@ vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, cons
             #pragma omp critical(update_result)
             result.insert(result.end(), partialResult.cbegin(), partialResult.cend());
         }
-    }
     return result;
 }
 
