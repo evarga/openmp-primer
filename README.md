@@ -110,7 +110,7 @@ make run < Inputs/08.in > Solutions/08.out  1843.22s user 3.06s system 743% cpu 
 
 As you can see, it has completed the task, by generating a solution earning maximum points, in about 4 instead of 15 minutes. Such nearly 4x speedup was achieved by only adding couple of `#pragma` statements to the code. This serves as the perfect testimony for the power of the declarative parallel programming approach. Furthermore, the same source code can be run in unchanged fashion sequentially by just omitting the compiler instructions associated with OpenMP.
 
-> Albeit being a simple thing to add OpenMP directives to your sequential code, you still need to design a proper parallel program. Here, the *chunking technique* was applied to produce data subdomains amenable for loop parallelization (sometimes referred as SPMD parallel programming style). The beauty of OpenMP is that you can incrementally adorn your sequential program with additional directives and make changes to it, as dictated by performance figures. At one point, there is no need to further improve speed.
+> Albeit being a simple thing to add OpenMP directives to your sequential code, you still need to design a proper parallel program. Here, the *chunking technique* was applied to produce data subdomains amenable for loop parallelization. The beauty of OpenMP is that you can incrementally adorn your sequential program with additional directives and make changes to it, as dictated by performance figures. At one point, there is no need to further improve speed.
 
 This case study illuminates the essence of two crucial laws in distributed computing:
 
