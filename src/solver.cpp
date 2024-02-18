@@ -4,6 +4,12 @@
 #include <random>
 #include <vector>
 
+#ifdef _OPENMP
+    #include <omp.h>
+#else
+    #define omp_get_max_threads() 1
+#endif
+
 using namespace std;
 
 // Used to calculate displacements while visiting the neighbors of a cell.
@@ -241,6 +247,7 @@ int main(int argc, char *argv[]) {
 
     const EngineMode mode = (argc > 1 and string(argv[1]) == "--fast") ? fast : regular;
     cout << "Engine mode is set to " << (mode == fast ? "fast" : "regular") << endl;
+    cout << "Executing with " << omp_get_max_threads() << " thread(s)." << endl;
 
     int n, m;
     cin >> n >> m;

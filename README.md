@@ -71,8 +71,9 @@ Here is the dump of the terminal window after executing the program using the 1s
 
 ```
 > make run < Inputs/01.in
-./build/solver  
+OMP_NUM_THREADS=8 ./build/solver  
 Engine mode is set to regular
+Executing with 1 thread(s).
 The estimated lower bound is 27
 28
 2 3 3 2 1 6 9 3 2 12 2 3 2 1 3 2 11 2 2 2 2 5 2 2 2 2 7 5 

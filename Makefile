@@ -7,9 +7,6 @@ CFLAGS = -Wall -std=c++14 -O3
 # OpenMP library activation on macOS (clang compiler)
 OPENMP_LIB = -Xpreprocessor -fopenmp -lomp
 
-# Number of threads used inside an OpenMP parallel region.
-OMP_NUM_THREADS = 8
-
 # Directories
 SRC_DIR = src
 BUILD_DIR = build
@@ -29,11 +26,13 @@ build-sequential: all
 build-parallel: all
 	$(CC) $(CFLAGS) $(OPENMP_LIB) -o $(OUTFILE) $(SRC)
 
+# The number of threads used inside an OpenMP parallel region is only relevant
+# when the program was previously built for parallel execution.
 run:
-	./$(OUTFILE)	
+	OMP_NUM_THREADS=8 ./$(OUTFILE) $(ENGINE_MODE)	
 
-run-fast:
-	./$(OUTFILE) --fast
+run-fast: 
+	$(MAKE) run ENGINE_MODE=--fast
 
 clean:
 	rm -rf $(BUILD_DIR)
