@@ -117,6 +117,13 @@ This case study illuminates the essence of two crucial laws in distributed compu
 - [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) which says how much speedup is possible for the same amount of work. In our case, the 8th test case was finished almost 4x faster.
 - [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law) which tells how much more work can be done in the same amount of time. Recall that we have spent around 4 minutes for both the 7th and 8th test cases. We have managed to scale 9x our data set and accomplish the task in the same amount of time. The 9x factor is due to increasing the grid from 1000x1000 to 3000x3000. Consequently, this is the reason why this law is more relevant than the previous one.
 
+### Reproducibility of Runs
+Observe that the random number generator is seeded with a fixed value (see the beginning of the `solver.cpp` file). This is done to ensure that the program will produce the same output for the same input. This is crucial for the reproducibility of the runs and useful if you want to experiment with the program and compare the results.
+
+Nonetheless, due to parallelism the program may produce slightly different results for the same input, since the order of the chunks being flooded is not deterministic. As randomization does have an impact of the outcome the exact shuffling of cells inside a chunk matters. Of course, when run in sequential mode the program will always produce the same output for the same input.
+
+Additionally, execution times will surely vary depending on numerous factors including the current load of a system. The figures provided in this document are only indicative. What really counts is their relative values for determining speedup. 
+
 # Architecture
 The source code is extensively documented, so it serves as a primary guide in understanding the solution. The basic strategy is quite straightforward:
 
