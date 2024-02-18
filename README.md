@@ -71,7 +71,6 @@ Here is the dump of the terminal window after executing the program using the 1s
 
 ```
 > make run < Inputs/01.in
-OMP_NUM_THREADS=8 ./build/solver  
 Engine mode is set to regular
 Executing with 1 thread(s).
 The estimated lower bound is 27
@@ -106,17 +105,17 @@ To trigger parallel execution make sure to run `make build-parallel` and check w
 > time make run < Inputs/08.in > Solutions/08.out
 ^Cmake: *** [run] Interrupt: 2
 
-make run < Inputs/08.in > Solutions/08.out  1843.22s user 3.06s system 743% cpu 4:08.48 total
+make run < Inputs/08.in > Solutions/08.out  1441.06s user 1.90s system 490% cpu 4:53.97 total
 ```
 
-As you can see, it has completed the task, by generating a solution earning maximum points, in about 4 instead of 15 minutes. Such nearly 4x speedup was achieved by only adding couple of `#pragma` statements to the code. This serves as the perfect testimony for the power of the declarative parallel programming approach. Furthermore, the same source code can be run in unchanged fashion sequentially by just omitting the compiler instructions associated with OpenMP.
+As you can see, it has completed the task, by generating a solution earning maximum points, in about 5 instead of 15 minutes. Such 3x speedup was achieved by only adding couple of `#pragma` statements to the code. This serves as the perfect testimony for the power of the declarative parallel programming approach. Furthermore, the same source code can be run in unchanged fashion sequentially by just omitting the compiler instructions associated with OpenMP.
 
 > Albeit being a simple thing to add OpenMP directives to your sequential code, you still need to design a proper parallel program. Here, the *chunking technique* was applied to produce data subdomains amenable for loop parallelization. The beauty of OpenMP is that you can incrementally adorn your sequential program with additional directives and make changes to it, as dictated by performance figures. At one point, there is no need to further improve speed.
 
 This case study illuminates the essence of two crucial laws in distributed computing:
 
-- [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) which says how much speedup is possible for the same amount of work. In our case, the 8th test case was finished almost 4x faster.
-- [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law) which tells how much more work can be done in the same amount of time. Recall that we have spent around 4 minutes for both the 7th and 8th test cases. We have managed to scale 9x our data set and accomplish the task in the same amount of time. The 9x factor is due to increasing the grid from 1000x1000 to 3000x3000. Consequently, this is the reason why this law is more relevant than the previous one.
+- [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) which says how much speedup is possible for the same amount of work. In our case, the 8th test case was finished 3x faster.
+- [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law) which tells how much more work can be done in the same amount of time. Recall that we have spent around 4-5 minutes for both the 7th and 8th test cases. We have managed to scale 9x our data set and accomplish the task in the same amount of time. The 9x factor is due to increasing the grid from 1000x1000 to 3000x3000. Consequently, this is the reason why this law is more relevant than the previous one.
 
 ### Reproducibility of Runs
 Observe that the random number generator is seeded with a fixed value (see the beginning of the `solver.cpp` file). This is done to ensure that the program will produce the same output for the same input. This is crucial for the reproducibility of the runs and useful if you want to experiment with the program and compare the results.

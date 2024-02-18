@@ -17,6 +17,9 @@ OUTFILE = $(BUILD_DIR)/solver
 # Source files
 SRC = $(SRC_DIR)/solver.cpp
 
+# Blank value for engine mode means default (regular) regime.
+ENGINE_MODE =
+
 all:
 	mkdir -p $(BUILD_DIR)
 
@@ -29,7 +32,7 @@ build-parallel: all
 # The number of threads used inside an OpenMP parallel region is only relevant
 # when the program was previously built for parallel execution.
 run:
-	OMP_NUM_THREADS=8 ./$(OUTFILE) $(ENGINE_MODE)	
+	@OMP_DYNAMIC=true OMP_NUM_THREADS=8 ./$(OUTFILE) $(ENGINE_MODE)	
 
 run-fast: 
 	$(MAKE) run ENGINE_MODE=--fast
