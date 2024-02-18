@@ -99,7 +99,7 @@ make run < Inputs/08.in > Solutions/08.out  894.16s user 0.82s system 99% cpu 14
 > As an additional exercise you can introduce an extra input (or configuration) parameter called `threshold` that would stop the program after reaching the desired value. You may want to set it according to your scoring criteria.
 
 ## Seeing the Effects of OpenMP
-To trigger parallel execution make sure to run `make build-parallel`. Here is the dump from the session solving the most complex test case:
+To trigger parallel execution make sure to run `make build-parallel` and check whether the number of threads utilized by OpenMP is OK on your machine (see the environment variable `OMP_NUM_THREADS` inside the `Makefile`). Here is the dump from the session solving the most complex test case:
 
 ```
 > time make run < Inputs/08.in > Solutions/08.out

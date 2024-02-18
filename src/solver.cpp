@@ -124,7 +124,8 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
     // Randomize the order of cells to simulate various isometric transformations of the grid.
     shuffle(cells.begin(), cells.end(), rnd);
 
-    /* Sort the cells based upon a simplified heuristic (an advanced version is used in the
+    /* 
+     * Sort the cells based upon a simplified heuristic (an advanced version is used in the
      * 'candidate' function below), since at this moment we have little information about
      * the cells in the grid. Whenever we need to pick a cell to process a new connected component
      * we will select the one with the highest score. This is achieved by taking elements
@@ -210,7 +211,7 @@ vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, cons
     const int chunkSize = (n <= 1000 and m <= 1000) ? 1000 : 300;
     vector<Cell> result;
 
-    #pragma omp parallel if(chunkSize < 1000) num_threads(8)
+    #pragma omp parallel if (chunkSize < 1000)
     for (int i = 1; i <= n; i += chunkSize)
         #pragma omp for schedule(dynamic, 2)
         for (int j = 1; j <= m; j += chunkSize) {
