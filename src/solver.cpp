@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <climits>
 #include <forward_list>
 #include <iostream>
 #include <random>

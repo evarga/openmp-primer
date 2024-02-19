@@ -35,7 +35,7 @@ run:
 	@OMP_DYNAMIC=true OMP_NUM_THREADS=8 ./$(OUTFILE) $(ENGINE_MODE)	
 
 run-fast: 
-	$(MAKE) run ENGINE_MODE=--fast
+	@$(MAKE) run ENGINE_MODE=--fast
 
 clean:
 	rm -rf $(BUILD_DIR)
