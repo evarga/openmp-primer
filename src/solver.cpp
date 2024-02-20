@@ -115,12 +115,6 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
         return total;
     };
 
-    // Stage 1: flood all cells that are surrounded by at least 3 walls (including border walls).
-    for (int i = 1; i <= n; i++)
-        for (int j = 1; j <= m; j++)
-            if (grid[i][j] == available and walls[i][j] >= 3)
-                flood(i, j, false);
-
     // Create a list of available cells. We know that we have done our job if all of them become flooded.
     vector<Cell> cells;
     for (int i = 1; i <= n; i++)
@@ -145,9 +139,6 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
         return walls[a.first][a.second] < walls[b.first][b.second];
     });
 
-    // Stage 2: successively seek for the best candidate to flood and track progress.
-    typedef pair<int,Cell> ScoredCandidate;
-
     /*
      * Each candidate is prioritized based upon the following weighted features:
      *
@@ -161,6 +152,8 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
      * avoiding cells that have many flooded neighbors, while in regular mode we put
      * more emphasis on the number of cells that can be additionally flooded.
      */
+    typedef pair<int,Cell> ScoredCandidate;
+
     auto candidate = [&] (const int row, const int col) {
         if (mode == regular)
             return ScoredCandidate(1000 * flood(row, col)
@@ -175,12 +168,13 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
                     Cell(row, col));
     };
 
-    while (!cells.empty())
-        if (candidates.empty()) {
+    while (!cells.empty()) {
+        const auto cell = cells.back();
+
+        if (candidates.empty() or walls[cell.first][cell.second] >= 3) {
             // It is crucial to pick a good starting cell for a new connected component.
             // We do this by selecting a cell surrounded by a largest number of walls.
             // This is achieved by taking elements from the back of the previously sorted list.
-            const auto cell = cells.back();
             cells.pop_back();
             if (grid[cell.first][cell.second] == available)
                 flood(cell.first, cell.second, false);
@@ -209,6 +203,7 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
                 flood(cell.first, cell.second, false);
             }
         }
+    }    
     return result;
 }
 
@@ -220,7 +215,7 @@ vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, cons
 
     #pragma omp parallel if (chunkSize < 1000)
     for (int i = 1; i <= n; i += chunkSize)
-        #pragma omp for schedule(dynamic, 2)
+        #pragma omp for schedule(static)
         for (int j = 1; j <= m; j += chunkSize) {
             const int bottom = min(i + chunkSize - 1, n);
             const int right = min(j + chunkSize - 1, m);
@@ -248,7 +243,7 @@ int main(int argc, char *argv[]) {
 
     const EngineMode mode = (argc > 1 and string(argv[1]) == "--fast") ? fast : regular;
     cout << "Engine mode is set to " << (mode == fast ? "fast" : "regular") << endl;
-    cout << "Executing with " << omp_get_max_threads() << " thread(s)." << endl;
+    cout << "Executing with max. " << omp_get_max_threads() << " thread(s)" << endl;
 
     int n, m;
     cin >> n >> m;
