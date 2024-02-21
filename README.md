@@ -4,7 +4,7 @@
 -  [Usage](#usage)
     - [Building the Project](#building-the-project)
     - [Running the Application](#running-the-application)
-    - [Seeing the Effects of OpenMP](#seeing-the-effects-of-openmp)
+    - [Seeing the Effects of OpenMP](#seeing-the-effects-of-parallelization)
 -  [Architecture](#architecture)
 -  [Conclusion](#conclusion)
 
@@ -18,7 +18,6 @@ This is a teaching material aimed to demonstrate the powerfulness of the declara
 - The [depth-first search graph algorithm](https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/) to estimate the problem's lower bound.
 - How to apply randomization to introduce additional variability and avoid being stuck in a local optima.
 - How data chunking helps in handling large grids.
-- An example of a properly designed, well commented and structured C++ program.
 
 ## Background
 To make the primer concrete this unit presents a solution to a competitive programming task (originally titled Мајнкрафт вООда in cyrillic) that appeared at the Serbian Informatics Olympiad contest in 2023. The starter kit was downloaded from the platform [Arena](https://arena.petlja.org/sr-Latn-RS/competition/2022-2023-sio-2-testiranje#tab_overview) (currently only in Serbian) maintained by the Mathematical Society of Serbia[^2]. The kit is fully integrated into this repository. You may read the problem description [here](problem-description.pdf) (in English).
@@ -98,7 +97,7 @@ make run < Inputs/08.in > Solutions/08.out  972.71s user 3.11s system 99% cpu 16
 
 > As an additional exercise you can introduce an extra input (or configuration) parameter called `threshold` that would stop the program after reaching the desired value. You may want to set it according to your scoring criteria.
 
-## Seeing the Effects of OpenMP
+## Seeing the Effects of Parallelization
 To trigger parallel execution make sure to run `make build-parallel` and check whether the number of threads utilized by OpenMP is OK on your machine (see the environment variable `OMP_NUM_THREADS` inside the `Makefile`). Here is the dump from the session solving the most complex test case:
 
 ```
