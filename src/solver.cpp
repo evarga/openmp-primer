@@ -214,8 +214,8 @@ vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, cons
     vector<Cell> result;
 
     #pragma omp parallel if (chunkSize < 1000)
+    #pragma omp for schedule(static) collapse(2)
     for (int i = 1; i <= n; i += chunkSize)
-        #pragma omp for schedule(static)
         for (int j = 1; j <= m; j += chunkSize) {
             const int bottom = min(i + chunkSize - 1, n);
             const int right = min(j + chunkSize - 1, m);
