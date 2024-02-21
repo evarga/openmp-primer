@@ -9,7 +9,7 @@
 -  [Conclusion](#conclusion)
 
 # Introduction
-This is a teaching material aimed to demonstrate the powerfulness of the declarative programming paradigm with OpenMP[^1]. The following topics are covered in this unit:
+This is a teaching material aimed to demonstrate the powerfulness of the declarative programming paradigm with OpenMP[^1]. More specifically, this repo illustrates the foundational principles of shared-memory parallel programming on multicore/multiprocessor systems. The following topics are covered in this unit:
 
 - How [OpenMP](https://www.openmp.org) may boost performance of a program with minimal extra effort in fully portable manner.
 - In what sense [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) differs from [Gustafson's Law](https://en.wikipedia.org/wiki/Gustafson%27s_law).
