@@ -4,7 +4,7 @@
 -  [Usage](#usage)
     - [Building the Project](#building-the-project)
     - [Running the Application](#running-the-application)
-    - [Seeing the Effects of OpenMP](#seeing-the-effects-of-parallelization)
+    - [Seeing the Effects of Parallelization](#seeing-the-effects-of-parallelization)
 -  [Architecture](#architecture)
 -  [Conclusion](#conclusion)
 
