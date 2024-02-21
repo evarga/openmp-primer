@@ -12,6 +12,14 @@
 // We seed the generator with some fixed value to ensure reproducibility.
 mt19937 rnd(15);
 
+/*
+ * The weights used in the heuristic function (see 'candidate' below).
+ * They depend on the engine mode. In fast mode we put more emphasis on
+ * avoiding cells that have many flooded neighbors, while in regular mode we put
+ * more emphasis on the number of cells that can be additionally flooded.
+ */    
+const int weight[2][4] = {{1'000, -100'000, 100, 100}, {1'000, -100, 10, 10}};
+
 // Solves the problem using a greedy approach with randomization. The key for this
 // approach is a flexible and customizable heuristic function (see 'candidate' below).
 vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const EngineMode mode) {
@@ -120,25 +128,15 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
      * 3. Number of walls surrounding the candidate. Border cells are overall better
      *    candidates.
      * 4. Random jitter that breaks ties and introduces additional variability.
-     *
-     * The heuristic depends on the engine mode. In fast mode we put more emphasis on
-     * avoiding cells that have many flooded neighbors, while in regular mode we put
-     * more emphasis on the number of cells that can be additionally flooded.
      */
     typedef pair<int,Cell> ScoredCandidate;
 
     auto candidate = [&] (const int row, const int col) {
-        if (mode == regular)
-            return ScoredCandidate(1000 * flood(row, col)
-                                   - 100 * floodedNeighbors[row][col]
-                                   + 10 * walls[row][col]
-                                   + rnd() % 10,
-                    Cell(row, col));
-        return ScoredCandidate(-100000 * floodedNeighbors[row][col]
-                               + 1000 * flood(row, col)
-                               + 100 * walls[row][col]
-                               + rnd() % 100,
-                    Cell(row, col));
+        return ScoredCandidate(weight[mode][0] * flood(row, col)
+                               + weight[mode][1] * floodedNeighbors[row][col]
+                               + weight[mode][2] * walls[row][col]
+                               + rnd() % weight[mode][3],
+                Cell(row, col));
     };
 
     while (!cells.empty()) {
