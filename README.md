@@ -71,8 +71,8 @@ Here is the dump of the terminal window after executing the program using the 1s
 ```
 > make run < Inputs/01.in
 Engine mode is set to regular
-Executing with max. 1 thread(s)
 The estimated lower bound is 27
+Executing with max. 1 thread(s)
 28
 2 3 3 2 1 3 3 5 8 4 7 4 3 2 4 2 6 3 2 2 2 9 2 2 2 2 7 5 
 <==================>
@@ -98,7 +98,7 @@ make run < Inputs/08.in > Solutions/08.out  972.71s user 3.11s system 99% cpu 16
 > As an additional exercise you can introduce an extra input (or configuration) parameter called `threshold` that would stop the program after reaching the desired value. You may want to set it according to your scoring criteria.
 
 ## Seeing the Effects of Parallelization
-To trigger parallel execution make sure to run `make build-parallel` and check whether the number of threads utilized by OpenMP is OK on your machine (see the environment variable `OMP_NUM_THREADS` inside the `Makefile`). Here is the dump from the session solving the most complex test case:
+To trigger parallel execution make sure to run `make build-parallel` and check whether the number of threads utilized by OpenMP is OK on your machine (see the environment variable `OMP_NUM_THREADS` inside the `Makefile`). Furthermore, watch how many threads are reported at the start of the program. Recall that smaller problem sizes (all except the 8th one) will execute sequentially. Here is the dump from the session solving the most complex test case:
 
 ```
 > time make run < Inputs/08.in > Solutions/08.out

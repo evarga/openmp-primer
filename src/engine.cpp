@@ -178,13 +178,18 @@ vector<Cell> solveChunk(const int n, const int m, GridConfiguration &grid, const
     return result;
 }
 
+// Decides whether parallel execution should be enabled depending on the problem size.
+bool shouldRunInParallel(const int n, const int m) {
+    return (unsigned long long) n * m > 1'000'000;
+}
+
 // Performs chunking as necessary and aggregates partial results.
-vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, const EngineMode mode) {
+vector<Cell> solve(const int n, const int m, const GridConfiguration &grid, const EngineMode mode, const bool runInParallel) {
     // We are handling blocks with dimensions of chunkSize x chunkSize.
-    const int chunkSize = (n <= 1000 and m <= 1000) ? 1000 : 300;
+    const int chunkSize = runInParallel ? 300 : 1000;
     vector<Cell> result;
 
-    #pragma omp parallel if (chunkSize < 1000)
+    #pragma omp parallel if (runInParallel)
     #pragma omp for schedule(static) collapse(2)
     for (int i = 1; i <= n; i += chunkSize)
         for (int j = 1; j <= m; j += chunkSize) {

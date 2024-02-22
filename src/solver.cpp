@@ -34,7 +34,6 @@ int main(int argc, char *argv[]) {
 
     const EngineMode mode = (argc > 1 and string(argv[1]) == "--fast") ? fast : regular;
     cout << "Engine mode is set to " << (mode == fast ? "fast" : "regular") << endl;
-    cout << "Executing with max. " << omp_get_max_threads() << " thread(s)" << endl;
 
     int n, m;
     cin >> n >> m;
@@ -71,9 +70,12 @@ int main(int argc, char *argv[]) {
     const int lowerBound = findLowerBound(n, m, inputGrid);
     cout << "The estimated lower bound is " << lowerBound << endl;
 
+    const bool runInParallel = shouldRunInParallel(n, m);
+    cout << "Executing with max. " << (runInParallel ? omp_get_max_threads() : 1) << " thread(s)" << endl;
+
     int minAmount = INT_MAX;
     while (minAmount > lowerBound) {
-        vector<Cell> result = solve(n, m, inputGrid, mode);
+        vector<Cell> result = solve(n, m, inputGrid, mode, runInParallel);
         if (result.size() < minAmount) {
             minAmount = result.size();
             printResult(result);
