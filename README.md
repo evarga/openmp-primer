@@ -1,13 +1,3 @@
-# Table of Contents
--  [Introduction](#introduction)
-    -  [Background](#background)
--  [Usage](#usage)
-    - [Building the Project](#building-the-project)
-    - [Running the Application](#running-the-application)
-    - [Seeing the Effects of Parallelization](#seeing-the-effects-of-parallelization)
--  [Architecture](#architecture)
--  [Conclusion](#conclusion)
-
 # Introduction
 This is a teaching material aimed to demonstrate the powerfulness of the declarative programming paradigm with OpenMP[^1]. More specifically, this repo illustrates the foundational principles of shared-memory parallel programming on multicore/multiprocessor systems. The following topics are covered in this unit:
 
